@@ -10,7 +10,6 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var Sequelize = require('sequelize');
 
 // configure app to use bodyParser()
 // this will let us get data from a POST
@@ -20,40 +19,9 @@ app.use(bodyParser.json());
 // set the port
 var port = process.env.PORT || 8080;
 
-// DATABASE SETUP
-// =============================================================================
 
-var sequelize = new Sequelize(
-    'adventure_store',
-    'Harry',
-    'Password123',
-    {
-        host: 'localhost',
-        dialect: 'mysql',
-        logging: console.log,
-        define: {
-                timestamps: true
-        }
-    });
-
-//load models
-var models = [
-  'user',
-  'review',
-  'spell',
-  'weapon',
-  'apparel'
-];
-
-models.forEach(function(model){
-   module.exports[model] = sequelize.import(__dirname + '/app/models/' + model);
-});
-
-var User = require('./app/models/user').User;
-var Review = require('./app/models/review').Review;
-var Spell = require('./app/models/spell').Spell;
-var Weapon = require('./app/models/weapon').Weapon;
-var Apparel = require('./app/models/apparel').Apparel;
+app.set('models', require('./app/models'));
+var User = app.get('models').User;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -79,7 +47,7 @@ router.route('/user')
        var password = req.body.password;
 
        var user = User.build({name:name, email: email, password:password});
-       user.addUser(function(success){
+       user.add(function(success){
           res.json({message: 'User created!'});
        },function(err){
            res.send(err);
