@@ -30,15 +30,40 @@ var sequelize = new Sequelize(
         dialect: 'mysql',
         logging: console.log,
         define: {
-                timestamps: false
+                timestamps: true
         }
     });
 
+//load models
+var models = [
+  'user',
+  'review',
+  'spell',
+  'weapon',
+  'apparel'
+];
+
+models.forEach(function(model){
+   module.exports[model] = sequelize.import(__dirname + '/app/models/' + model);
+});
+
+var User = require('./app/models/user').User;
+var Review = require('./app/models/review').Review;
+var Spell = require('./app/models/spell').Spell;
+var Weapon = require('./app/models/weapon').Weapon;
+var Apparel = require('./app/models/apparel').Apparel;
 
 // ROUTES FOR OUR API
 // =============================================================================
 
 var router = express.Router();
+
+// middleware to use for all requests
+router.use(function(req, res, next) {
+    // do logging
+    console.log('Request being made.');
+    next(); // make sure we go to the next routes and don't stop here
+});
 
 router.get('/', function(req, res){
    res.json({ message: 'Welcome to the Adventure-Store API' });
