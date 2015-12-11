@@ -7,24 +7,24 @@
 var sequelize = require('sequelize');
 
 // define model
-module.exports = function(sequelize, DataType){
+module.exports = function(sequelize, DataTypes){
     return Review = sequelize.define('reviews',{
-            product_ref: DataType.STRING,
-            stars: DataType.INTEGER,
-            body: DataType.STRING,
-            author: DataType.STRING
+            product_ref: DataTypes.STRING,
+            stars: DataTypes.INTEGER,
+            body: DataTypes.STRING,
+            author: DataTypes.STRING
         },
         {
             instanceMethod: {
                 retrieveAll: function(onSuccess, onError){
                     Review.findAll({}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 retrieveByid: function(review_id, onSuccess, onError){
                     var id = review_id;
                     Review.find({where: {id: id}}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 add: function(onSuccess, onError){
@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataType){
                     var author = this.author;
 
                     Review.build({product_ref: product_ref, stars: stars, body: body, author: author})
-                        .save().success(onSuccess).error(onError);
+                        .save().then(onSuccess).catch(onError);
                 },
 
                 updateById: function(review_id, onSuccess, onError) {
@@ -46,13 +46,13 @@ module.exports = function(sequelize, DataType){
 
                     Review.update({product_ref: product_ref, stars: stars, body: body, author: author},
                         {where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 removeById: function(review_id, onSuccess, onError){
                     var id = review_id;
                     Review.destroy({where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 }
             }
         }

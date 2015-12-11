@@ -21,11 +21,11 @@ var sequelize = new Sequelize(
 
 //load models
 var models = [
-    'User',
-    'Review',
-    'Spell',
-    'Weapon',
-    'Apparel'
+    'user',
+    'review',
+    'spell',
+    'weapon',
+    'apparel'
 ];
 
 models.forEach(function(model){

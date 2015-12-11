@@ -7,27 +7,27 @@
 var sequelize = require('sequelize');
 
 //define model
-module.exports = function(sequelize, DataType){
+module.exports = function(sequelize, DataTypes){
     return Apparel = sequelize.define('apparel',{
-            ref: DataType.STRING,
-            type: DataType.STRING,
-            name: DataType.STRING,
-            desc: DataType.STRING,
-            armour: DataType.STRING,
-            price: DataType.INTEGER,
-            quantity: DataType.INTEGER
+            ref: DataTypes.STRING,
+            type: DataTypes.STRING,
+            name: DataTypes.STRING,
+            desc: DataTypes.STRING,
+            armour: DataTypes.STRING,
+            price: DataTypes.INTEGER,
+            quantity: DataTypes.INTEGER
         },
         {
             instanceMethod: {
                 retrieveAll: function(onSuccess, onError){
                     Apparel.findAll({}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 retrieveByid: function(apparel_id, onSuccess, onError){
                     var id = apparel_id;
                     Apparel.find({where: {id: id}}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 add: function(onSuccess, onError){
@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataType){
                         armour:armour,
                         price: price,
                         quantity: quantity})
-                        .save().success(onSuccess).error(onError);
+                        .save().then(onSuccess).catch(onError);
                 },
 
                 updateById: function(apparel_id, onSuccess, onError) {
@@ -68,13 +68,13 @@ module.exports = function(sequelize, DataType){
                             price: price,
                             quantity: quantity},
                         {where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 removeById: function(apparel_id, onSuccess, onError){
                     var id = apparel_id;
                     Apparel.destroy({where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 }
             }
         }

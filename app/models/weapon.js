@@ -7,27 +7,27 @@
 var sequelize = require('sequelize');
 
 //define model
-module.exports = function(sequelize, DataType) {
+module.exports = function(sequelize, DataTypes) {
     return Weapon = sequelize.define('weapons', {
-            ref: DataType.STRING,
-            type: DataType.STRING,
-            name: DataType.STRING,
-            desc: DataType.STRING,
-            damage: DataType.STRING,
-            price: DataType.INTEGER,
-            quantity: DataType.INTEGER
+            ref: DataTypes.STRING,
+            type: DataTypes.STRING,
+            name: DataTypes.STRING,
+            desc: DataTypes.STRING,
+            damage: DataTypes.STRING,
+            price: DataTypes.INTEGER,
+            quantity: DataTypes.INTEGER
         },
         {
             instanceMethod: {
                 retrieveAll: function (onSuccess, onError) {
                     Weapon.findAll({}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 retrieveByid: function (weapon_id, onSuccess, onError) {
                     var id = weapon_id;
                     Weapon.find({where: {id: id}}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 add: function (onSuccess, onError) {
@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataType) {
                         price: price,
                         quantity: quantity
                     })
-                        .save().success(onSuccess).error(onError);
+                        .save().then(onSuccess).catch(onError);
                 },
 
                 updateById: function (weapon_id, onSuccess, onError) {
@@ -71,13 +71,13 @@ module.exports = function(sequelize, DataType) {
                             quantity: quantity
                         },
                         {where: {id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 removeById: function (weapon_id, onSuccess, onError) {
                     var id = weapon_id;
                     Weapon.destroy({where: {id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 }
             }
         }

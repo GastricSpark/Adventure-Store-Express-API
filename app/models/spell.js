@@ -7,26 +7,26 @@
 var sequelize = require('sequelize');
 
 //define model
-module.exports = function(sequelize, DataType){
+module.exports = function(sequelize, DataTypes){
     return Spell = sequelize.define('spells',{
-            ref: DataType.STRING,
-            name: DataType.STRING,
-            desc: DataType.STRING,
-            effect: DataType.STRING,
-            price: DataType.INTEGER,
-            quantity: DataType.INTEGER
+            ref: DataTypes.STRING,
+            name: DataTypes.STRING,
+            desc: DataTypes.STRING,
+            effect: DataTypes.STRING,
+            price: DataTypes.INTEGER,
+            quantity: DataTypes.INTEGER
         },
         {
             instanceMethod: {
                 retrieveAll: function(onSuccess, onError){
                     Spell.findAll({}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 retrieveByid: function(spell_id, onSuccess, onError){
                     var id = spell_id;
                     Spell.find({where: {id: id}}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 add: function(onSuccess, onError){
@@ -44,7 +44,7 @@ module.exports = function(sequelize, DataType){
                         effect:effect,
                         price: price,
                         quantity: quantity})
-                        .save().success(onSuccess).error(onError);
+                        .save().then(onSuccess).catch(onError);
                 },
 
                 updateById: function(spell_id, onSuccess, onError) {
@@ -64,13 +64,13 @@ module.exports = function(sequelize, DataType){
                             price: price,
                             quantity: quantity},
                         {where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 removeById: function(spell_id, onSuccess, onError){
                     var id = spell_id;
                     Spell.destroy({where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 }
             }
         }

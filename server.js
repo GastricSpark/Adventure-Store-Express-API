@@ -47,7 +47,7 @@ router.route('/user')
        var password = req.body.password;
 
        var user = User.build({name:name, email: email, password:password});
-       user.add(function(success){
+       user.add(function(){
           res.json({message: 'User created!'});
        },function(err){
            res.send(err);

@@ -4,26 +4,25 @@
  */
 
 // call the packages we need
-var sequelize = require('sequelize');
 var crypto = require('crypto');
 
 // define model
-module.exports = function(sequelize, DataType){
-    return  User = sequelize.define('users', {
-            name: DataType.STRING,
-            email: DataType.STRING,
-            password: DataType.STRING
+module.exports = function(sequelize, DataTypes){
+      var User = sequelize.define('users', {
+            name: DataTypes.STRING,
+            email: DataTypes.STRING,
+            password: DataTypes.STRING
         },
         {
             instanceMethods: {
                 retrieveAll: function(onSuccess, onError){
                     User.findAll({}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 retrieveById: function(user_id, onSuccess, onError){
                     User.find({where: {id: user_id}}, {raw: true})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 add: function(onSuccess, onError){
@@ -31,13 +30,15 @@ module.exports = function(sequelize, DataType){
                     var email = this.email;
                     var password = this.password;
 
-                    //password hashing
+                    /*//password hashing
                     var shasum = crypto.createHash('sha1');
                     shasum.update(password);
-                    password = shasum.digest('hex');
+                    password = shasum.digest('hex');*/
 
                     User.build({name: name, email: email, password: password})
-                        .save().success(onSuccess).error(onError);
+                        .save()
+                        .then(onSuccess)
+                        .catch(onError);
                 },
 
                 updateById: function(user_id, onSuccess, onError) {
@@ -52,15 +53,15 @@ module.exports = function(sequelize, DataType){
                     password = shasum.digest('hex');
 
                     User.update({ name: name, email: email, password: password},{where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 },
 
                 removeById: function(user_id, onSuccess, onError){
                     User.destroy({where:{id: id}})
-                        .success(onSuccess).error(onError);
+                        .then(onSuccess).catch(onError);
                 }
             }
         }
-    );
+    );return User;
 };
 
