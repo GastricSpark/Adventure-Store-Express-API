@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes){
         {
             instanceMethods: {
                 retrieveAll: function(onSuccess, onError){
-                    User.findAll({}, {raw: true})
+                    User.findAll({})
                         .then(onSuccess).catch(onError);
                 },
 
@@ -30,10 +30,8 @@ module.exports = function(sequelize, DataTypes){
                     var email = this.email;
                     var password = this.password;
 
-                    /*//password hashing
-                    var shasum = crypto.createHash('sha1');
-                    shasum.update(password);
-                    password = shasum.digest('hex');*/
+                    //password hashing
+                    password = crypto.createHash('md5').update(password).digest('hex');
 
                     User.build({name: name, email: email, password: password})
                         .save()
@@ -48,9 +46,7 @@ module.exports = function(sequelize, DataTypes){
                     var password = this.password;
 
                     //password hashing
-                    var shasum = crypto.createHash('sha1');
-                    shasum.update(password);
-                    password = shasum.digest('hex');
+                    /*password = crypto.createHash('md5').update(password).digest('hex');*/
 
                     User.update({ name: name, email: email, password: password},{where:{id: id}})
                         .then(onSuccess).catch(onError);

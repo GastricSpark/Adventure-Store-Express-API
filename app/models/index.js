@@ -15,7 +15,7 @@ var sequelize = new Sequelize(
         dialect: 'mysql',
         logging: console.log,
         define: {
-            timestamps: false
+            timestamps: true
         }
     });
 
