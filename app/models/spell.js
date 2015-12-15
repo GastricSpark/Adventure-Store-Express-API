@@ -20,9 +20,9 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
-                retrieveByid: function(spell_id, onSuccess, onError){
+                retrieveById: function(spell_id, onSuccess, onError){
                     var id = spell_id;
-                    Spell.find({where: {id: id}}, {raw: true})
+                    Spell.find({where: {id: id}})
                         .then(onSuccess).catch(onError);
                 },
 

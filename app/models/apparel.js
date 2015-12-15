@@ -21,9 +21,9 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
-                retrieveByid: function(apparel_id, onSuccess, onError){
+                retrieveById: function(apparel_id, onSuccess, onError){
                     var id = apparel_id;
-                    Apparel.find({where: {id: id}}, {raw: true})
+                    Apparel.find({where: {id: id}})
                         .then(onSuccess).catch(onError);
                 },
 

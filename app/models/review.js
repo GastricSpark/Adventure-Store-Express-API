@@ -18,9 +18,9 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
-                retrieveByid: function(review_id, onSuccess, onError){
+                retrieveById: function(review_id, onSuccess, onError){
                     var id = review_id;
-                    Review.find({where: {id: id}}, {raw: true})
+                    Review.find({where: {id: id}})
                         .then(onSuccess).catch(onError);
                 },
 

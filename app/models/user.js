@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes){
                 },
 
                 retrieveById: function(user_id, onSuccess, onError){
-                    User.find({where: {id: user_id}}, {raw: true})
+                    User.find({where: {id: user_id}})
                         .then(onSuccess).catch(onError);
                 },
 
@@ -53,6 +53,7 @@ module.exports = function(sequelize, DataTypes){
                 },
 
                 removeById: function(user_id, onSuccess, onError){
+                    var id = user_id
                     User.destroy({where:{id: id}})
                         .then(onSuccess).catch(onError);
                 }
