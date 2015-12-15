@@ -3,21 +3,18 @@
  * Created by HWhewell on 10/12/2015.
  */
 
-// call the packages we need
-var sequelize = require('sequelize');
-
 // define model
 module.exports = function(sequelize, DataTypes){
-    return Review = sequelize.define('reviews',{
+    var Review = sequelize.define('reviews',{
             product_ref: DataTypes.STRING,
             stars: DataTypes.INTEGER,
             body: DataTypes.STRING,
             author: DataTypes.STRING
         },
         {
-            instanceMethod: {
+            instanceMethods: {
                 retrieveAll: function(onSuccess, onError){
-                    Review.findAll({}, {raw: true})
+                    Review.findAll({})
                         .then(onSuccess).catch(onError);
                 },
 
@@ -56,5 +53,5 @@ module.exports = function(sequelize, DataTypes){
                 }
             }
         }
-    );
+    );return Review;
 };

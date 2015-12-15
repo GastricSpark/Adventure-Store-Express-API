@@ -3,12 +3,9 @@
  * Created by HWhewell on 10/12/2015.
  */
 
-// call the packages we need
-var sequelize = require('sequelize');
-
 //define model
 module.exports = function(sequelize, DataTypes) {
-    return Weapon = sequelize.define('weapons', {
+    var Weapon = sequelize.define('weapons', {
             ref: DataTypes.STRING,
             type: DataTypes.STRING,
             name: DataTypes.STRING,
@@ -18,9 +15,9 @@ module.exports = function(sequelize, DataTypes) {
             quantity: DataTypes.INTEGER
         },
         {
-            instanceMethod: {
+            instanceMethods: {
                 retrieveAll: function (onSuccess, onError) {
-                    Weapon.findAll({}, {raw: true})
+                    Weapon.findAll({})
                         .then(onSuccess).catch(onError);
                 },
 
@@ -81,5 +78,5 @@ module.exports = function(sequelize, DataTypes) {
                 }
             }
         }
-    );
+    ); return Weapon;
 };

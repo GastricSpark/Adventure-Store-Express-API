@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 // set the port
 var port = process.env.PORT || 8080;
 
-
+// set up the models
 app.set('models', require('./app/models'));
 var User = app.get('models').user;
 var Review = app.get('models').review;
@@ -82,7 +82,7 @@ router.route('/review')
         var body = req.body.body;
         var author = req.body.author;
 
-        var review = Review.build({product_ref: product_ref, stars: stars, body: body, author: author})
+        var review = Review.build({product_ref: product_ref, stars: stars, body: body, author: author});
         review.add(function(){
             res.json({message: 'Review created!'});
         },function(err){
@@ -118,7 +118,7 @@ router.route('/apparel')
         var quantity = req.body.quantity;
 
         var apparel = Apparel.build({ref: ref, type: type, name: name, desc: desc,
-            armour: armour, price: price, quantity: quantity})
+            armour: armour, price: price, quantity: quantity});
         apparel.add(function(){
             res.json({message: 'Apparel created!'});
         },function(err){
@@ -128,9 +128,9 @@ router.route('/apparel')
     // get all apparel
     .get(function(req, res){
         var apparel = Apparel.build();
-        apparel.retrieveAll(function(apparels){
-            if(apparels){
-                res.json(apparels);
+        apparel.retrieveAll(function(apparel){
+            if(apparel){
+                res.json(apparel);
             }else{
                 res.send(401, "Apparel not found")
             }
@@ -152,7 +152,7 @@ router.route('/spell')
         var quantity = req.body.quantity;
 
         var spell = Spell.build({ref: ref, name: name, desc: desc,
-            effect: effect, price: price, quantity: quantity})
+            effect: effect, price: price, quantity: quantity});
         spell.add(function(){
             res.json({message: 'Spell created!'});
         },function(err){
@@ -186,7 +186,7 @@ router.route('/weapon')
         var quantity = req.body.quantity;
 
         var weapon = Weapon.build({ref: ref, type: type, name: name, desc: desc,
-            damage: damage, price: price, quantity: quantity})
+            damage: damage, price: price, quantity: quantity});
         weapon.add(function(){
             res.json({message: 'Weapon created!'});
         },function(err){
