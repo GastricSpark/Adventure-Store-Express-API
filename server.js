@@ -36,6 +36,10 @@ var router = express.Router();
 router.use(function(req, res, next) {
     // do logging
     console.log('Request being made.');
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     next(); // make sure to go to the next routes and don't stop here
 });
 
