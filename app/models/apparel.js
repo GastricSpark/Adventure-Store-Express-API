@@ -27,6 +27,12 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
+                retrieveByRef: function(apparel_ref, onSuccess, onError){
+                    var ref = apparel_ref;
+                    Apparel.find({where: {ref: ref}})
+                        .then(onSuccess).catch(onError);
+                },
+
                 add: function(onSuccess, onError){
                     var ref = this.ref;
                     var type = this.type;

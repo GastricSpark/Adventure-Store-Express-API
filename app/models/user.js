@@ -4,7 +4,7 @@
  */
 
 // call the packages we need
-var crypto = require('crypto');
+var bcrypt = require('bcrypt-nodejs');
 
 // define model
 module.exports = function(sequelize, DataTypes){
@@ -25,13 +25,18 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
+                retrieveByEmail: function(email, onSuccess, onError){
+                    User.find({where: {id: email}})
+                        .then(onSuccess).catch(onError);
+                },
+
                 add: function(onSuccess, onError){
                     var name = this.name;
                     var email = this.email;
                     var password = this.password;
 
                     //password hashing
-                    password = crypto.createHash('md5').update(password).digest('hex');
+                    password = bcrypt.hash(password);
 
                     User.build({name: name, email: email, password: password})
                         .save()
@@ -46,7 +51,7 @@ module.exports = function(sequelize, DataTypes){
                     var password = this.password;
 
                     //password hashing
-                    /*password = crypto.createHash('md5').update(password).digest('hex');*/
+                    password = bcrypt.hash(password);
 
                     User.update({ name: name, email: email, password: password},{where:{id: id}})
                         .then(onSuccess).catch(onError);

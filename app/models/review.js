@@ -24,6 +24,12 @@ module.exports = function(sequelize, DataTypes){
                         .then(onSuccess).catch(onError);
                 },
 
+                retrieveByRef: function(product_ref, onSuccess, onError){
+                    var ref = product_ref;
+                    Review.find({where: {product_ref: ref}})
+                        .then(onSuccess).catch(onError);
+                },
+
                 add: function(onSuccess, onError){
                     var product_ref = this.product_ref;
                     var stars = this.stars;
