@@ -26,6 +26,8 @@ var Review = app.get('models').review;
 var Apparel = app.get('models').apparel;
 var Spell = app.get('models').spell;
 var Weapon = app.get('models').weapon;
+var Order = app.get('models').order;
+var OrderDetails = app.get('models').orderDetails;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -121,8 +123,21 @@ router.route('/users/:user_id')
         }, function(error){
             res.send("User not found")
         });
-    }
-);
+    });
+
+router.route('/users/email/:email')
+    .get(function(req,res){
+        var user = User.build();
+        user.retrieveByEmail(req.params.email, function(user){
+            if(user){
+                res.json(user);
+            } else {
+                res.send(401, "User not found");
+            }
+        }, function(error){
+            res.send("User not found")
+        });
+    });
 
 // REVIEW ROUTES -------------------------------
 router.route('/reviews')
@@ -152,8 +167,7 @@ router.route('/reviews')
         }, function(error){
             res.send("Review not found");
         })
-    }
-);
+    });
 
 router.route('/reviews/:review_id')
     // update a review by id
@@ -201,9 +215,21 @@ router.route('/reviews/:review_id')
         }, function(error){
             res.send("User not found")
         });
-    }
-);
+    });
 
+router.route('/reviews/product/:product_ref')
+    .get(function(req,res){
+        var review = Review.build();
+        review.retrieveByRef(req.params.product_ref, function(reviews){
+            if(reviews){
+                res.json(reviews);
+            } else {
+                res.send(401, "Review not found");
+            }
+        }, function(error){
+            res.send("Review not found")
+        });
+    });
 
 // APPAREL ROUTES ------------------------------
 router.route('/apparel')
@@ -237,8 +263,8 @@ router.route('/apparel')
         }, function(error){
             res.send("Apparel not found");
         })
-    }
-);
+    });
+
 router.route('/apparel/:apparel_id')
     // update apparel by id
     .put(function(req,res){
@@ -288,9 +314,22 @@ router.route('/apparel/:apparel_id')
         }, function(error){
             res.send("Apparel not found")
         });
-    }
-);
+    });
 
+router.route('apparel/product/:product_ref')
+    // get apparel by ref
+    .get(function(req,res){
+        var apparel = Apparel.build();
+        apparel.retrieveByRef(req.params.product_ref, function(apparel){
+            if(apparel){
+                res.json(apparel);
+            } else {
+                res.send(401, "Apparel not found");
+            }
+        }, function(error){
+            res.send("Apparel not found")
+        });
+    });
 // SPELL ROUTES --------------------------------
 
 router.route('/spells')
@@ -323,8 +362,8 @@ router.route('/spells')
         }, function(error){
             res.send("Spell not found");
         })
-    }
-);
+    });
+
 router.route('/spells/:spell_id')
     // update spell by id
     .put(function(req,res){
@@ -373,8 +412,23 @@ router.route('/spells/:spell_id')
         }, function(error){
             res.send("Spell not found")
         });
-    }
-);
+    });
+
+router.route('spells/product/:product_ref')
+    // get spell by ref
+    .get(function(req,res){
+        var spell = Spell.build();
+        spell.retrieveByRef(req.params.product_ref, function(spell){
+            if(spell){
+                res.json(spell);
+            } else {
+                res.send(401, "Spell not found");
+            }
+        }, function(error){
+            res.send("Spell not found")
+        });
+    });
+
 // WEAPON ROUTES -------------------------------
 router.route('/weapons')
     // create weapon
@@ -407,8 +461,8 @@ router.route('/weapons')
         }, function(error){
             res.send("Weapon not found");
         })
-    }
-);
+    });
+
 router.route('/weapons/:weapon_id')
     // update weapon by id
     .put(function(req,res){
@@ -458,8 +512,212 @@ router.route('/weapons/:weapon_id')
         }, function(error){
             res.send("Weapon not found")
         });
-    }
-);
+    });
+
+router.route('weapons/product/:product_ref')
+    // get weapon by ref
+    .get(function(req,res){
+        var weapon = Weapon.build();
+        weapon.retrieveByRef(req.params.product_ref, function(weapon){
+            if(weapon){
+                res.json(weapon);
+            } else {
+                res.send(401, "Weapon not found");
+            }
+        }, function(error){
+            res.send("Weapon not found")
+        });
+    });
+
+// ORDER ROUTES -------------------------------
+
+router.route('/orders')
+    // create order
+    .post(function(req, res){
+        var user_id = req.body.user_id;
+        var order_date = req.body.order_date;
+        var required_date = req.body.required_date;
+        var shipped_date = req.body.shipped_date;
+        var ship_via = req.body.ship_via;
+        var ship_name = req.body.ship_name;
+        var ship_address = req.body.ship_address;
+        var ship_city = req.body.ship_city;
+        var ship_region = req.body.ship_region;
+        var ship_postcode = req.body.ship_postcode;
+        var ship_country = req.body.ship_country;
+
+        var order = Order.build({
+            user_id: user_id,
+            order_date: order_date,
+            required_date: required_date,
+            shipped_date: shipped_date,
+            ship_via: ship_via,
+            ship_name: ship_name,
+            ship_address: ship_address,
+            ship_city: ship_city,
+            ship_region: ship_region,
+            ship_postcode: ship_postcode,
+            ship_country: ship_country
+
+        });
+        order.add(function(){
+            res.json({message: 'Order created!'});
+        },function(err){
+            res.send(err);
+        });
+    })
+    // get all Orders
+    .get(function(req, res){
+        var order = Order.build();
+        order.retrieveAll(function(orders){
+            if(orders){
+                res.json(orders);
+            }else{
+                res.send(401, "Order not found")
+            }
+        }, function(error){
+            res.send("Order not found");
+        })
+    });
+
+router.route('/orders/:order_id')
+    // update order by id
+    .put(function(req,res){
+        var order = Order.build();
+
+        order.user_id = req.body.user_id;
+        order.order_date = req.body.order_date;
+        order.required_date = req.body.required_date;
+        order.shipped_date = req.body.shipped_date;
+        order.ship_via = req.ship_via;
+        order.ship_name = req.body.ship_name;
+        order.ship_address = req.body.ship_address;
+        order.ship_city = req.body.ship_city;
+        order.ship_region = req.body.ship_region;
+        order.ship_postcode = req.body.ship_postcode;
+        order.ship_country = req.body.ship_country;
+
+        order.updateById(req.params.order_id, function(success){
+            console.log(success);
+            if(success){
+                res.json({message: 'Order updated!'});
+            } else{
+                res.send(401, "Order not found");
+            }
+        }, function(error){
+            res.send("Order not found");
+        });
+    })
+    // get order by id
+    .get(function(req,res){
+        var order = Order.build();
+        order.retrieveById(req.params.order_id, function(order){
+            if(order){
+                res.json(order);
+            } else {
+                res.send(401, "Order not found");
+            }
+        }, function(error){
+            res.send("Order not found")
+        });
+    })
+    // delete order by id
+    .delete(function(req, res){
+        var order = Order.build();
+        order.removeById(req.params.order_id, function(order){
+            if(order){
+                res.json({message: "Order removed!"});
+            } else {
+                res.send(401, "Order not found");
+            }
+        }, function(error){
+            res.send("Order not found")
+        });
+    });
+
+// ORDER DETAIL ROUTES ------------------------
+router.route('/order-details')
+    // create order details
+    .post(function(req, res){
+
+        var order_id = req.body.order_id;
+        var product_ref = req.body.product_ref;
+        var unit_price = req.body.unit_price;
+        var quantity = req.body.quantity;
+
+        var orderDetails = OrderDetails.build({
+            order_id: order_id,
+            product_ref: product_ref,
+            unit_price: unit_price,
+            quality: quantity
+        });
+        orderDetails.add(function(){
+            res.json({message: 'Order Details added!'});
+        },function(err){
+            res.send(err);
+        });
+    })
+    // get all order details
+    .get(function(req, res){
+        var orderDetails = OrderDetails.build();
+        orderDetails.retrieveAll(function(orderDetails){
+            if(orderDetails){
+                res.json(orderDetails);
+            }else{
+                res.send(401, "order Details not found")
+            }
+        }, function(error){
+            res.send("order Details not found");
+        })
+    });
+
+router.route('/order-details/:order_id')
+    // update order details by id
+    .put(function(req,res){
+        var orderDetails = OrderDetails.build();
+
+        orderDetails.order_id = req.body.order_id;
+        orderDetails.product_ref = req.body.product_ref;
+        orderDetails.unit_price = req.body.unit_price;
+        orderDetails.quality = req.body.quality;
+
+        orderDetails.updateById(req.params.order_id, function(success){
+            console.log(success);
+            if(success){
+                res.json({message: 'order Details updated!'});
+            } else{
+                res.send(401, "order Details not found");
+            }
+        }, function(error){
+            res.send("Order Details not found");
+        });
+    })
+    // get order details by id
+    .get(function(req,res){
+        var orderDetails = OrderDetails.build();
+        orderDetails.retrieveById(req.params.order_id, function(orderDetails){
+            if(orderDetails){
+                res.json(orderDetails);
+            } else {
+                res.send(401, "Order Details not found");
+            }
+        }, function(error){
+            res.send("Order Details not found")
+        });
+    })
+    // delete order details by id
+    .delete(function(req, res){
+        var orderDetails = OrderDetails.build();
+        orderDetails.removeById(req.params.order_id, function(orderDetails){
+            if(orderDetails){
+                res.json({message: "Order Details removed!"});
+            } else {
+                res.send(401, "Order Details not found");
+            }
+        }, function(error){
+            res.send("Order Details not found")
+        });
+    });
 
 // all routes are prefixed with /api
 app.use('/api', router);

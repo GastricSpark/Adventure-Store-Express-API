@@ -25,7 +25,9 @@ var models = [
     'review',
     'spell',
     'weapon',
-    'apparel'
+    'apparel',
+    'order',
+    'orderDetail'
 ];
 
 models.forEach(function(model){
