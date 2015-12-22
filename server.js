@@ -71,7 +71,7 @@ router.route('/users')
            if(users){
                res.json(users);
            }else{
-               res.send(401, "User not found")
+               res.status(401).send( "User not found");
            }
        }, function(error){
            res.send("User not found");
@@ -92,7 +92,7 @@ router.route('/users/:user_id')
            if(success){
                res.json({message: 'User updated!'});
            } else{
-               res.send(401, "User not found");
+               res.status(401).send("User not found");
            }
        }, function(error){
            res.send("User not found");
@@ -105,7 +105,7 @@ router.route('/users/:user_id')
             if(users){
                 res.json(users);
             } else {
-                res.send(401, "User not found");
+                res.status(401).send("User not found");
             }
         }, function(error){
             res.send("User not found")
@@ -118,7 +118,7 @@ router.route('/users/:user_id')
             if(users){
                 res.json({message: "User removed!"});
             } else {
-                res.send(401, "User not found");
+                res.status(401).send( "User not found");
             }
         }, function(error){
             res.send("User not found")
@@ -132,7 +132,7 @@ router.route('/users/email/:email')
             if(user){
                 res.json(user);
             } else {
-                res.send(401, "User not found");
+                res.status(401).send( "User not found");
             }
         }, function(error){
             res.send("User not found")
@@ -162,7 +162,7 @@ router.route('/reviews')
             if(reviews){
                 res.json(reviews);
             }else{
-                res.send(401, "Review not found")
+                res.status(401).send("Review not found");
             }
         }, function(error){
             res.send("Review not found");
@@ -184,7 +184,7 @@ router.route('/reviews/:review_id')
             if(success){
                 res.json({message: 'Review updated!'});
             } else{
-                res.send(401, "Review not found");
+                res.status(401).send("Review not found");
             }
         }, function(error){
             res.send("Review not found");
@@ -197,7 +197,7 @@ router.route('/reviews/:review_id')
             if(reviews){
                 res.json(reviews);
             } else {
-                res.send(401, "Review not found");
+                res.status(401).send("Review not found")
             }
         }, function(error){
             res.send("Review not found")
@@ -210,7 +210,7 @@ router.route('/reviews/:review_id')
             if(reviews){
                 res.json({message: "Review removed!"});
             } else {
-                res.send(401, "Review not found");
+                res.status(401).send("Review not found")
             }
         }, function(error){
             res.send("User not found")
@@ -224,7 +224,7 @@ router.route('/reviews/product/:product_ref')
             if(reviews){
                 res.json(reviews);
             } else {
-                res.send(401, "Review not found");
+                res.status(401).send("Review not found")
             }
         }, function(error){
             res.send("Review not found")
@@ -258,7 +258,7 @@ router.route('/apparel')
             if(apparel){
                 res.json(apparel);
             }else{
-                res.send(401, "Apparel not found")
+                res.status(401).send("Apparel not found");
             }
         }, function(error){
             res.send("Apparel not found");
@@ -283,7 +283,7 @@ router.route('/apparel/:apparel_id')
             if(success){
                 res.json({message: 'Apparel updated!'});
             } else{
-                res.send(401, "Apparel not found");
+                res.status(401).send("Apparel not found");
             }
         }, function(error){
             res.send("Apparel not found");
@@ -296,7 +296,7 @@ router.route('/apparel/:apparel_id')
             if(apparel){
                 res.json(apparel);
             } else {
-                res.send(401, "Apparel not found");
+                res.status(401).send("Apparel not found");
             }
         }, function(error){
             res.send("Apparel not found")
@@ -309,7 +309,7 @@ router.route('/apparel/:apparel_id')
             if(apparel){
                 res.json({message: "Apparel removed!"});
             } else {
-                res.send(401, "Apparel not found");
+                res.status(401).send("Apparel not found");
             }
         }, function(error){
             res.send("Apparel not found")
@@ -324,7 +324,7 @@ router.route('apparel/product/:product_ref')
             if(apparel){
                 res.json(apparel);
             } else {
-                res.send(401, "Apparel not found");
+                res.status(401).send("Apparel not found");
             }
         }, function(error){
             res.send("Apparel not found")
@@ -357,7 +357,7 @@ router.route('/spells')
             if(spells){
                 res.json(spells);
             }else{
-                res.send(401, "Spell not found")
+                res.status(401).send("Spell not found");
             }
         }, function(error){
             res.send("Spell not found");
@@ -381,7 +381,7 @@ router.route('/spells/:spell_id')
             if(success){
                 res.json({message: 'Spell updated!'});
             } else{
-                res.send(401, "Spell not found");
+                res.status(401).send("Spell not found");
             }
         }, function(error){
             res.send("Spell not found");
@@ -394,7 +394,7 @@ router.route('/spells/:spell_id')
             if(spell){
                 res.json(spell);
             } else {
-                res.send(401, "Spell not found");
+                res.status(401).send("Spell not found");
             }
         }, function(error){
             res.send("Spell not found")
@@ -407,7 +407,7 @@ router.route('/spells/:spell_id')
             if(spell){
                 res.json({message: "Spell removed!"});
             } else {
-                res.send(401, "Spell not found");
+                res.status(401).send("Spell not found");
             }
         }, function(error){
             res.send("Spell not found")
@@ -422,7 +422,7 @@ router.route('spells/product/:product_ref')
             if(spell){
                 res.json(spell);
             } else {
-                res.send(401, "Spell not found");
+                res.status(401).send("Spell not found");
             }
         }, function(error){
             res.send("Spell not found")
@@ -456,7 +456,7 @@ router.route('/weapons')
             if(weapons){
                 res.json(weapons);
             }else{
-                res.send(401, "Weapon not found")
+                res.status(401).send("Weapon not found");
             }
         }, function(error){
             res.send("Weapon not found");
@@ -481,7 +481,7 @@ router.route('/weapons/:weapon_id')
             if(success){
                 res.json({message: 'Weapon updated!'});
             } else{
-                res.send(401, "Weapon not found");
+                res.status(401).send("Weapon not found");
             }
         }, function(error){
             res.send("Weapon not found");
@@ -494,7 +494,7 @@ router.route('/weapons/:weapon_id')
             if(weapon){
                 res.json(weapon);
             } else {
-                res.send(401, "Weapon not found");
+                res.status(401).send("Weapon not found");
             }
         }, function(error){
             res.send("Weapon not found")
@@ -507,7 +507,7 @@ router.route('/weapons/:weapon_id')
             if(weapon){
                 res.json({message: "Weapon removed!"});
             } else {
-                res.send(401, "Weapon not found");
+                res.status(401).send("Weapon not found");
             }
         }, function(error){
             res.send("Weapon not found")
@@ -522,7 +522,7 @@ router.route('weapons/product/:product_ref')
             if(weapon){
                 res.json(weapon);
             } else {
-                res.send(401, "Weapon not found");
+                res.status(401).send("Weapon not found");
             }
         }, function(error){
             res.send("Weapon not found")
@@ -573,7 +573,7 @@ router.route('/orders')
             if(orders){
                 res.json(orders);
             }else{
-                res.send(401, "Order not found")
+                res.status(401).send("Order not found");
             }
         }, function(error){
             res.send("Order not found");
@@ -602,7 +602,7 @@ router.route('/orders/:order_id')
             if(success){
                 res.json({message: 'Order updated!'});
             } else{
-                res.send(401, "Order not found");
+                res.status(401).send("Order not found");
             }
         }, function(error){
             res.send("Order not found");
@@ -615,7 +615,7 @@ router.route('/orders/:order_id')
             if(order){
                 res.json(order);
             } else {
-                res.send(401, "Order not found");
+                res.status(401).send("Order not found");
             }
         }, function(error){
             res.send("Order not found")
@@ -628,7 +628,7 @@ router.route('/orders/:order_id')
             if(order){
                 res.json({message: "Order removed!"});
             } else {
-                res.send(401, "Order not found");
+                res.status(401).send("Order not found");
             }
         }, function(error){
             res.send("Order not found")
@@ -664,7 +664,7 @@ router.route('/order-details')
             if(orderDetails){
                 res.json(orderDetails);
             }else{
-                res.send(401, "order Details not found")
+                res.status(401).send("Order Details not found");
             }
         }, function(error){
             res.send("order Details not found");
@@ -686,7 +686,7 @@ router.route('/order-details/:order_id')
             if(success){
                 res.json({message: 'order Details updated!'});
             } else{
-                res.send(401, "order Details not found");
+                res.status(401).send("Order Details not found");
             }
         }, function(error){
             res.send("Order Details not found");
@@ -699,7 +699,7 @@ router.route('/order-details/:order_id')
             if(orderDetails){
                 res.json(orderDetails);
             } else {
-                res.send(401, "Order Details not found");
+                res.status(401).send("Order Details not found");
             }
         }, function(error){
             res.send("Order Details not found")
@@ -712,7 +712,7 @@ router.route('/order-details/:order_id')
             if(orderDetails){
                 res.json({message: "Order Details removed!"});
             } else {
-                res.send(401, "Order Details not found");
+                res.status(401).send("Order Details not found");
             }
         }, function(error){
             res.send("Order Details not found")

@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes){
                 },
 
                 retrieveByEmail: function(email, onSuccess, onError){
-                    User.find({where: {id: email}})
+                    User.find({where: {email: email}})
                         .then(onSuccess).catch(onError);
                 },
 
