@@ -36,12 +36,14 @@ module.exports = function(sequelize, DataTypes){
                     var password = this.password;
 
                     //password hashing
-                    password = bcrypt.hash(password);
+                    bcrypt.hash(password, null, null ,function(err, hash){
+                        User.build({name: name, email: email, password: hash})
+                            .save()
+                            .then(onSuccess)
+                            .catch(onError);
+                    });
 
-                    User.build({name: name, email: email, password: password})
-                        .save()
-                        .then(onSuccess)
-                        .catch(onError);
+
                 },
 
                 updateById: function(user_id, onSuccess, onError) {
@@ -51,10 +53,12 @@ module.exports = function(sequelize, DataTypes){
                     var password = this.password;
 
                     //password hashing
-                    password = bcrypt.hash(password);
+                    bcrypt.hash(password, null, null ,function(err, hash){
+                        User.update({ name: name, email: email, password: hash},{where:{id: id}})
+                            .then(onSuccess).catch(onError);
+                    });
 
-                    User.update({ name: name, email: email, password: password},{where:{id: id}})
-                        .then(onSuccess).catch(onError);
+
                 },
 
                 removeById: function(user_id, onSuccess, onError){
