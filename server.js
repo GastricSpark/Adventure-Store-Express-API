@@ -56,8 +56,9 @@ router.route('/users')
        var name = req.body.name;
        var email = req.body.email;
        var password = req.body.password;
+       var role = req.body.role;
 
-       var user = User.build({name: name, email: email, password: password});
+       var user = User.build({name: name, email: email, password: password, role: role});
        user.add(function(){
           res.json({message: 'User created!'});
        },function(err){
@@ -86,8 +87,9 @@ router.route('/users/:user_id')
        user.name = req.body.name;
        user.email = req.body.email;
        user.password = req.body.password;
+       user.role = req.body.role;
 
-       user.updateById(req.params.user_id, function(success){
+        user.updateById(req.params.user_id, function(success){
            console.log(success);
            if(success){
                res.json({message: 'User updated!'});
@@ -126,6 +128,7 @@ router.route('/users/:user_id')
     });
 
 router.route('/users/email/:email')
+    // get a user by email
     .get(function(req,res){
         var user = User.build();
         user.retrieveByEmail(req.params.email, function(user){
@@ -218,6 +221,7 @@ router.route('/reviews/:review_id')
     });
 
 router.route('/reviews/product/:product_ref')
+    // get review by product ref
     .get(function(req,res){
         var review = Review.build();
         review.retrieveByRef(req.params.product_ref, function(reviews){
@@ -242,9 +246,10 @@ router.route('/apparel')
         var armour = req.body.armour;
         var price = req.body.price;
         var quantity = req.body.quantity;
+        var imageUrl = req.body.imageUrl;
 
         var apparel = Apparel.build({ref: ref, type: type, name: name, desc: desc,
-            armour: armour, price: price, quantity: quantity});
+            armour: armour, price: price, quantity: quantity, imageUrl: imageUrl});
         apparel.add(function(){
             res.json({message: 'Apparel created!'});
         },function(err){
@@ -277,6 +282,7 @@ router.route('/apparel/:apparel_id')
         apparel.armour = req.body.armour;
         apparel.price = req.body.price;
         apparel.quantity = req.body.quantity;
+        apparel.imageUrl = req.body.imageUrl;
 
         apparel.updateById(req.params.apparel_id, function(success){
             console.log(success);
@@ -315,21 +321,6 @@ router.route('/apparel/:apparel_id')
             res.send("Apparel not found")
         });
     });
-
-router.route('apparel/product/:product_ref')
-    // get apparel by ref
-    .get(function(req,res){
-        var apparel = Apparel.build();
-        apparel.retrieveByRef(req.params.product_ref, function(apparel){
-            if(apparel){
-                res.json(apparel);
-            } else {
-                res.status(401).send("Apparel not found");
-            }
-        }, function(error){
-            res.send("Apparel not found")
-        });
-    });
 // SPELL ROUTES --------------------------------
 
 router.route('/spells')
@@ -341,9 +332,10 @@ router.route('/spells')
         var effect = req.body.effect;
         var price = req.body.price;
         var quantity = req.body.quantity;
+        var imageUrl = req.body.imageUrl;
 
         var spell = Spell.build({ref: ref, name: name, desc: desc,
-            effect: effect, price: price, quantity: quantity});
+            effect: effect, price: price, quantity: quantity, imageUrl: imageUrl});
         spell.add(function(){
             res.json({message: 'Spell created!'});
         },function(err){
@@ -375,6 +367,7 @@ router.route('/spells/:spell_id')
         spell.effect = req.body.effect;
         spell.price = req.body.price;
         spell.quantity = req.body.quantity;
+        spell.imageUrl = req.body.imageUrl;
 
         spell.updateById(req.params.spell_id, function(success){
             console.log(success);
@@ -413,22 +406,6 @@ router.route('/spells/:spell_id')
             res.send("Spell not found")
         });
     });
-
-router.route('spells/product/:product_ref')
-    // get spell by ref
-    .get(function(req,res){
-        var spell = Spell.build();
-        spell.retrieveByRef(req.params.product_ref, function(spell){
-            if(spell){
-                res.json(spell);
-            } else {
-                res.status(401).send("Spell not found");
-            }
-        }, function(error){
-            res.send("Spell not found")
-        });
-    });
-
 // WEAPON ROUTES -------------------------------
 router.route('/weapons')
     // create weapon
@@ -440,9 +417,10 @@ router.route('/weapons')
         var damage = req.body.damage;
         var price = req.body.price;
         var quantity = req.body.quantity;
+        var imageUrl = req.body.imageUrl;
 
         var weapon = Weapon.build({ref: ref, type: type, name: name, desc: desc,
-            damage: damage, price: price, quantity: quantity});
+            damage: damage, price: price, quantity: quantity, imageUrl: imageUrl});
         weapon.add(function(){
             res.json({message: 'Weapon created!'});
         },function(err){
@@ -475,6 +453,7 @@ router.route('/weapons/:weapon_id')
         weapon.damage = req.body.damage;
         weapon.price = req.body.price;
         weapon.quantity = req.body.quantity;
+        weapon.imageUrl = req.body.imageUrl;
 
         weapon.updateById(req.params.weapon_id, function(success){
             console.log(success);
@@ -513,22 +492,6 @@ router.route('/weapons/:weapon_id')
             res.send("Weapon not found")
         });
     });
-
-router.route('weapons/product/:product_ref')
-    // get weapon by ref
-    .get(function(req,res){
-        var weapon = Weapon.build();
-        weapon.retrieveByRef(req.params.product_ref, function(weapon){
-            if(weapon){
-                res.json(weapon);
-            } else {
-                res.status(401).send("Weapon not found");
-            }
-        }, function(error){
-            res.send("Weapon not found")
-        });
-    });
-
 // ORDER ROUTES -------------------------------
 
 router.route('/orders')

@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes){
             desc: DataTypes.STRING,
             armour: DataTypes.STRING,
             price: DataTypes.INTEGER,
-            quantity: DataTypes.INTEGER
+            quantity: DataTypes.INTEGER,
+            imageUrl: DataTypes.STRING
         },
         {   freezeTableName: true,
             instanceMethods: {
@@ -41,6 +42,7 @@ module.exports = function(sequelize, DataTypes){
                     var armour = this.armour;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Apparel.build({
                         ref: ref,
@@ -49,7 +51,8 @@ module.exports = function(sequelize, DataTypes){
                         desc: desc,
                         armour:armour,
                         price: price,
-                        quantity: quantity})
+                        quantity: quantity,
+                        imageUrl: imageUrl})
                         .save().then(onSuccess).catch(onError);
                 },
 
@@ -62,6 +65,7 @@ module.exports = function(sequelize, DataTypes){
                     var armour = this.armour;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Apparel.update({ref: ref,
                             type: type,
@@ -69,7 +73,8 @@ module.exports = function(sequelize, DataTypes){
                             desc: desc,
                             armour:armour,
                             price: price,
-                            quantity: quantity},
+                            quantity: quantity,
+                            imageUrl: imageUrl},
                         {where:{id: id}})
                         .then(onSuccess).catch(onError);
                 },

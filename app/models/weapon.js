@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes) {
             desc: DataTypes.STRING,
             damage: DataTypes.STRING,
             price: DataTypes.INTEGER,
-            quantity: DataTypes.INTEGER
+            quantity: DataTypes.INTEGER,
+            imageUrl: DataTypes.STRING
         },
         {
             instanceMethods: {
@@ -41,6 +42,7 @@ module.exports = function(sequelize, DataTypes) {
                     var damage = this.damage;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Weapon.build({
                         ref: ref,
@@ -49,7 +51,8 @@ module.exports = function(sequelize, DataTypes) {
                         desc: desc,
                         damage: damage,
                         price: price,
-                        quantity: quantity
+                        quantity: quantity,
+                        imageUrl: imageUrl
                     })
                         .save().then(onSuccess).catch(onError);
                 },
@@ -63,6 +66,7 @@ module.exports = function(sequelize, DataTypes) {
                     var damage = this.damage;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Weapon.update({
                             ref: ref,
@@ -71,7 +75,8 @@ module.exports = function(sequelize, DataTypes) {
                             desc: desc,
                             damage: damage,
                             price: price,
-                            quantity: quantity
+                            quantity: quantity,
+                            imageUrl: imageUrl
                         },
                         {where: {id: id}})
                         .then(onSuccess).catch(onError);

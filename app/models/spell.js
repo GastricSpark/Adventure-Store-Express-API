@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes){
             desc: DataTypes.STRING,
             effect: DataTypes.STRING,
             price: DataTypes.INTEGER,
-            quantity: DataTypes.INTEGER
+            quantity: DataTypes.INTEGER,
+            imageUrl: DataTypes.STRING
         },
         {
             instanceMethods: {
@@ -39,6 +40,7 @@ module.exports = function(sequelize, DataTypes){
                     var effect = this.effect;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Spell.build({
                         ref: ref,
@@ -46,7 +48,8 @@ module.exports = function(sequelize, DataTypes){
                         desc: desc,
                         effect:effect,
                         price: price,
-                        quantity: quantity})
+                        quantity: quantity,
+                        imageUrl: imageUrl})
                         .save().then(onSuccess).catch(onError);
                 },
 
@@ -58,6 +61,7 @@ module.exports = function(sequelize, DataTypes){
                     var effect = this.effect;
                     var price = this.price;
                     var quantity = this.quantity;
+                    var imageUrl = this.imageUrl;
 
                     Spell.update({
                             ref: ref,
@@ -65,7 +69,8 @@ module.exports = function(sequelize, DataTypes){
                             desc: desc,
                             effect:effect,
                             price: price,
-                            quantity: quantity},
+                            quantity: quantity,
+                            imageUrl: imageUrl},
                         {where:{id: id}})
                         .then(onSuccess).catch(onError);
                 },

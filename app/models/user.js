@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes){
       var User = sequelize.define('users', {
             name: DataTypes.STRING,
             email: DataTypes.STRING,
-            password: DataTypes.STRING
+            password: DataTypes.STRING,
+            role: DataTypes.STRING
         },
         {
             instanceMethods: {
@@ -34,10 +35,11 @@ module.exports = function(sequelize, DataTypes){
                     var name = this.name;
                     var email = this.email;
                     var password = this.password;
+                    var role = this.role;
 
                     //password hashing
                     bcrypt.hash(password, null, null ,function(err, hash){
-                        User.build({name: name, email: email, password: hash})
+                        User.build({name: name, email: email, password: hash, role: role})
                             .save()
                             .then(onSuccess)
                             .catch(onError);
@@ -51,10 +53,11 @@ module.exports = function(sequelize, DataTypes){
                     var name = this.name;
                     var email = this.email;
                     var password = this.password;
+                    var role = this.role;
 
                     //password hashing
                     bcrypt.hash(password, null, null ,function(err, hash){
-                        User.update({ name: name, email: email, password: hash},{where:{id: id}})
+                        User.update({ name: name, email: email, password: hash, role: role},{where:{id: id}})
                             .then(onSuccess).catch(onError);
                     });
 
