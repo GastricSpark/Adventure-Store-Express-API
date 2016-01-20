@@ -10,11 +10,17 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt-nodejs');
 
 // configure app to use bodyParser()
 // this allows getting data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// use morgan to log requests to the console
+app.use(morgan('dev'));
 
 // set the port
 var port = process.env.PORT || 8080;
@@ -28,6 +34,9 @@ var Spell = app.get('models').spell;
 var Weapon = app.get('models').weapon;
 var Order = app.get('models').order;
 var OrderDetails = app.get('models').orderDetails;
+
+//set secret
+app.set('superSecret', 'harryjameswhewell');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -48,6 +57,44 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res){
    res.json({ message: 'Welcome to the Adventure-Store API' });
 });
+
+// AUTH ROUTES -------------------------------
+router.route('/auth')
+    .post(function(req,res){
+        var user = User.build();
+        var email = req.body.email;
+        var password = req.body.password;
+
+        user.retrieveByEmail(email, function(returnedUser){
+            var payload = {
+                "iss": "adventure-store-api",
+                "aud": "user",
+                "id": returnedUser.id,
+                "name": returnedUser.name,
+                "role": returnedUser.role
+            };
+
+            bcrypt.compare(password, returnedUser.password, function(err, resp){
+                if(resp == true){
+                    if(returnedUser){
+                        var token = jwt.sign( payload,app.get('superSecret'),{
+                            expiresIn: 86400
+                        });
+                        res.json({
+                            success: true,
+                            token: token
+                        })
+                    } else {
+                        res.json({ success: false, message: 'Authentication failed. Wrong Email' });
+                    }
+                } else{
+                    res.json({ success: false, message: 'Authentication failed. Wrong Password' });
+                }
+            });
+        },function(err){
+            res.json({ success: false, message: 'Authentication failed. Wrong Email' });
+        })
+    });
 
 // USER ROUTES -------------------------------
 router.route('/users')
